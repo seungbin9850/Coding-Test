@@ -50,14 +50,14 @@ export class SurveyService {
     async selectSelection({ surveyHistoryId, questionId, selectionId }: SelectSelectionInput) {
         const surveyHistory = await this.checkIsInProgressSurvey(surveyHistoryId);
 
-        const answer = await this.surveyRepository.findAnswer(surveyHistory.id, questionId);
+        const answer = await this.surveyRepository.getAnswer(surveyHistory.id, questionId);
 
         if (answer) await this.surveyRepository.updateAnswer(surveyHistory.id, questionId, selectionId);
         else await this.surveyRepository.createAnswer(surveyHistory.id, questionId, selectionId);
     }
 
     async deleteAnswer({ surveyHistoryId, questionId }: DeleteAnswerInput) {
-        const answer = await this.surveyRepository.findAnswer(surveyHistoryId, questionId);
+        const answer = await this.surveyRepository.getAnswer(surveyHistoryId, questionId);
 
         if (!answer) throw new NotFoundException("Answer Not Found");
 
@@ -65,9 +65,9 @@ export class SurveyService {
     }
 
     async completeSurvey({ surveyHistoryId }: CompleteSurveyInput) {
-        const answers = await this.surveyRepository.getSurveyResult(surveyHistoryId);
+        const answers = await this.surveyRepository.getAnswers(surveyHistoryId);
 
-        const surveyHistory = await this.surveyRepository.findSurveyHistory(surveyHistoryId);
+        const surveyHistory = await this.surveyRepository.getInProgressSurvey(surveyHistoryId);
 
         // 1. 필수문항을 전부 가져옴
         const requiredQuestions = await this.surveyRepository.getRequiredQuestions(surveyHistory.surveyId);
@@ -88,6 +88,13 @@ export class SurveyService {
         return score;
     }
 
+    async getSurveyResult(id: number) {
+        const surveyHistory = await this.surveyRepository.getSurveyHistory(id);
+        const answers = await this.surveyRepository.getAnswers(id);
+
+        return { surveyHistory, answers };
+    }
+
     private async checkExistSurvey(id: number) {
         const survey = await this.surveyRepository.getOneSurvey(id);
 
@@ -97,7 +104,7 @@ export class SurveyService {
     }
 
     private async checkIsInProgressSurvey(id: number) {
-        const surveyHistory = await this.surveyRepository.findSurveyHistory(id);
+        const surveyHistory = await this.surveyRepository.getInProgressSurvey(id);
 
         if (!surveyHistory) throw new NotFoundException("Survey Is Not In Progress");
 

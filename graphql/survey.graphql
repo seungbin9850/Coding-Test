@@ -9,11 +9,35 @@ type Answer {
     selectionId: Int!
 }
 
+type Question {
+    id: Int!
+    title: String!
+    num: Int!
+    isRequired: Boolean!
+}
+
+type Selection {
+    id: Int!
+    title: String!
+    score: Int!
+    num: Int!
+}
+
 type SurveyHistory {
     id: Int!
     surveyId: Int!
     status: String!
     score: Int
+}
+
+type SurveyResultAnswer {
+    question: Question
+    selection: Selection
+}
+
+type SurveyResult {
+    surveyHistory: SurveyHistory!
+    answers: [SurveyResultAnswer]!
 }
 
 input CreateSurvey {
@@ -51,6 +75,7 @@ input CompleteSurvey {
 type Query {
     getAllSurveys: [Survey]
     getOneSurvey(id: Int): Survey
+    getSurveyResult(id: Int): SurveyResult
 }
 
 type Mutation {

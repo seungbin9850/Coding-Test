@@ -71,4 +71,9 @@ export class SurveyResolver {
 
         return surveyScore;
     }
+
+    @Query()
+    getSurveyResult(@Args("id") id: number) {
+        return this.surveyService.getSurveyResult(id);
+    }
 }

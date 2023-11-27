@@ -34,8 +34,12 @@ export class SurveyRepository {
         return this.connection.getRepository(SurveyHistory).save({ surveyId });
     }
 
-    findSurveyHistory(surveyHistoryId: number) {
+    getInProgressSurvey(surveyHistoryId: number) {
         return this.connection.getRepository(SurveyHistory).findOne({ id: surveyHistoryId, status: SurveyHistoryStatus.InProgress });
+    }
+
+    getSurveyHistory(surveyHistoryId: number) {
+        return this.connection.getRepository(SurveyHistory).findOne({ id: surveyHistoryId });
     }
 
     async createAnswer(surveyHistoryId: number, questionId: number, selectionId: number) {
@@ -50,7 +54,7 @@ export class SurveyRepository {
         await this.connection.getRepository(Answer).delete({ surveyHistoryId, questionId });
     }
 
-    getSurveyResult(surveyHistoryId: number) {
+    getAnswers(surveyHistoryId: number) {
         return this.connection
             .getRepository(Answer)
             .createQueryBuilder("answer")
@@ -68,7 +72,7 @@ export class SurveyRepository {
         await this.connection.getRepository(SurveyHistory).update({ id }, { status, score });
     }
 
-    findAnswer(surveyHistoryId: number, questionId: number) {
+    getAnswer(surveyHistoryId: number, questionId: number) {
         return this.connection.getRepository(Answer).findOne({ surveyHistoryId, questionId });
     }
 }
