@@ -6,6 +6,6 @@
 
 ### 3. yarn으로 package.json에 설치된 모듈들을 설치한다
 
-### 4. yarn start:dev를 해서 서버를 실행한다
+### 4. yarn start를 해서 서버를 실행한다
 
 ### 5. localhost:4000/graphql 로 접속하여 서버 테스트를 한다
