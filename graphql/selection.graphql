@@ -1,0 +1,34 @@
+type Selection {
+    id: Int!
+    title: String!
+    score: Int!
+    num: Int!
+}
+
+input CreateSelection {
+    title: String!
+    num: Int!
+    score: Int!
+    questionId: Int!
+}
+
+input UpdateSelection {
+    id: Int!
+    title: String
+    score: Int
+    num: Int
+}
+
+input DeleteSelection {
+    id: Int!
+}
+
+type Query {
+    getAllSelections(questionId: Int): [Selection]
+}
+
+type Mutation {
+    createSelection(createSelection: CreateSelection): Boolean
+    updateSelection(updateSelection: UpdateSelection): Boolean
+    deleteSelection(deleteSelection: DeleteSelection): Boolean
+}

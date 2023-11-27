@@ -1,0 +1,64 @@
+type Survey {
+    id: Int!
+    title: String!
+}
+
+type Answer {
+    surveyHistoryId: Int!
+    questionId: Int!
+    selectionId: Int!
+}
+
+type SurveyHistory {
+    id: Int!
+    surveyId: Int!
+    status: String!
+    score: Int
+}
+
+input CreateSurvey {
+    title: String!
+}
+
+input UpdateSurvey {
+    id: Int!
+    title: String!
+}
+
+input DeleteSurvey {
+    id: Int!
+}
+
+input StartSurvey {
+    id: Int!
+}
+
+input SelectSelection {
+    surveyHistoryId: Int!
+    questionId: Int!
+    selectionId: Int!
+}
+
+input DeleteAnswer {
+    surveyHistoryId: Int!
+    questionId: Int!
+}
+
+input CompleteSurvey {
+    surveyHistoryId: Int!
+}
+
+type Query {
+    getAllSurveys: [Survey]
+    getOneSurvey(id: Int): Survey
+}
+
+type Mutation {
+    createSurvey(createSurvey: CreateSurvey): Boolean
+    updateSurvey(updateSurvey: UpdateSurvey): Boolean
+    deleteSurvey(deleteSurvey: DeleteSurvey): Boolean
+    startSurvey(startSurvey: StartSurvey): SurveyHistory
+    selectSelection(selectSelection: SelectSelection): Boolean
+    deleteAnswer(deleteAnswer: DeleteAnswer): Boolean
+    completeSurvey(completeSurvey: CompleteSurvey): Int
+}

@@ -1,0 +1,34 @@
+type Question {
+    id: Int!
+    title: String!
+    num: Int!
+    isRequired: Boolean!
+}
+
+input CreateQuestion {
+    title: String!
+    num: Int!
+    surveyId: Int!
+    isRequired: Boolean
+}
+
+input UpdateQuestion {
+    id: Int!
+    title: String
+    num: Int
+    isRequired: Boolean
+}
+
+input DeleteQuestion {
+    id: Int!
+}
+
+type Query {
+    getAllQuestions(surveyId: Int): [Question]
+}
+
+type Mutation {
+    createQuestion(createQuestion: CreateQuestion): Boolean
+    updateQuestion(updateQuestion: UpdateQuestion): Boolean
+    deleteQuestion(deleteQuestion: DeleteQuestion): Boolean
+}
